@@ -3,6 +3,11 @@ it("deve cadastrar um novo usuário", () => {
   const email = "test@gmail.com";
   const password = "pwd123";
 
+  cy.task('removeUser', email)
+    .then(function(result){
+      console.log(result);
+    })
+
   cy.visit("/signup");
 
   cy.get('input[placeholder="Nome"]').type(name);
