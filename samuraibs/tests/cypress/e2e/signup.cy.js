@@ -21,7 +21,7 @@ describe("cadastro", () => {
       .find("p")
       .should(
         "have.text",
-        "Agora você pode fazer seu login no Samurai Barbershop!"
+        "Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!"
       );
   });
 
