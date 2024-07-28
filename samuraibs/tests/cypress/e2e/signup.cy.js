@@ -9,13 +9,13 @@ it("deve cadastrar um novo usuário", () => {
   cy.get('input[placeholder="E-mail"]').type(email);
   cy.get('input[placeholder="Senha"]').type(password);
 
-  cy.intercept('POST', '/users', {
-    statusCode: 200
-  }).as('postUser')
+  // cy.intercept('POST', '/users', {
+  //   statusCode: 200
+  // }).as('postUser')
 
   cy.contains("button", "Cadastrar").click();
 
-  cy.wait('@postUser')
+  // cy.wait('@postUser')
 
   cy.get(".toast")
     .should("be.visible")
