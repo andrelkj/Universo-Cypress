@@ -15,9 +15,9 @@ describe("cadastro", () => {
     it("deve cadastrar com sucesso", () => {
       cy.visit("/signup");
 
-      cy.get('input[placeholder="Nome"]').type(user.name);
-      cy.get('input[placeholder="E-mail"]').type(user.email);
-      cy.get('input[placeholder="Senha"]').type(user.password);
+      cy.get('input[placeholder^="Nome"]').type(user.name);
+      cy.get('input[placeholder$="email"]').type(user.email);
+      cy.get('input[placeholder*="senha"]').type(user.password);
 
       cy.contains("button", "Cadastrar").click();
 
@@ -54,9 +54,9 @@ describe("cadastro", () => {
     it("não deve cadastrar o usuário", () => {
       cy.visit("/signup");
 
-      cy.get('input[placeholder="Nome"]').type(user.name);
-      cy.get('input[placeholder="E-mail"]').type(user.email);
-      cy.get('input[placeholder="Senha"]').type(user.password);
+      cy.get('input[placeholder^="Nome"]').type(user.name);
+      cy.get('input[placeholder$="email"]').type(user.email);
+      cy.get('input[placeholder*="senha"]').type(user.password);
 
       cy.contains("button", "Cadastrar").click();
 
