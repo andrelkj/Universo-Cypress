@@ -1,6 +1,8 @@
+import { faker } from "@faker-js/faker";
+
 it("deve cadastrar um novo usuário", () => {
   const name = "Test User";
-  const email = "test@gmail.com";
+  const email = faker.internet.email();
   const password = "pwd123";
 
   cy.visit("/signup");
