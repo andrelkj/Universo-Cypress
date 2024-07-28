@@ -1,11 +1,11 @@
 describe("cadastro", () => {
-  const user = {
-    name: "Test User",
-    email: "test@gmail.com",
-    password: "pwd123",
-  };
-
   it("deve cadastrar um novo usuário", () => {
+    const user = {
+      name: "Test User",
+      email: "test@gmail.com",
+      password: "pwd123",
+    };
+
     cy.task("removeUser", user.email).then(function (result) {
       console.log(result);
     });
@@ -28,6 +28,23 @@ describe("cadastro", () => {
   });
 
   it("deve exibir email já cadastrado", () => {
+    const user = {
+      name: "Test User 2",
+      email: "test2@gmail.com",
+      password: "pwd123",
+      is_provider: true,
+    };
+
+    cy.task("removeUser", user.email).then(function (result) {
+      console.log(result);
+    });
+
+    cy.request("POST", "http://localhost:3333/users", user).then(function (
+      response
+    ) {
+      expect(response.status).to.eq(200);
+    });
+
     cy.visit("/signup");
 
     cy.get('input[placeholder="Nome"]').type(user.name);
