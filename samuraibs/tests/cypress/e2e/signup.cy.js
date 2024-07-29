@@ -53,4 +53,19 @@ describe("cadastro", () => {
       );
     });
   });
+
+  context.only("quando o email é incorreto", () => {
+    const user = {
+      name: "Test User 3",
+      email: "test3.gmail.com",
+      password: "pwd123",
+    };
+
+    it("deve exibir mensagem de alerta", () => {
+      signupPage.go();
+      signupPage.form(user);
+      signupPage.submit();
+      signupPage.alertHaveText("Informe um email válido")
+    });
+  });
 });
