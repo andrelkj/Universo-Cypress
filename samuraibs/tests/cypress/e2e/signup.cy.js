@@ -69,7 +69,7 @@ describe("cadastro", () => {
     });
   });
 
-  context.only("quando a senha tem 1 caractere", () => {
+  context("quando a senha tem 1 caractere", () => {
     const passwords = ["1", "2a", "ab3", "abc4", "ab#c5"];
 
     beforeEach(() => {
@@ -90,6 +90,25 @@ describe("cadastro", () => {
 
       afterEach(() => {
         signupPage.alertHaveText("Pelo menos 6 caracteres");
+      });
+    });
+  });
+
+  context.only("quando não preencho nenhum dos campos", () => {
+    const alertMessages = [
+      "Nome é obrigatório",
+      "E-mail é obrigatório",
+      "Senha é obrigatória",
+    ];
+
+    before(() => {
+      signupPage.go();
+      signupPage.submit();
+    });
+
+    it("deve exibir mensagens de erro", () => {
+      alertMessages.forEach((alert) => {
+        signupPage.alertHaveText(alert);
       });
     });
   });
