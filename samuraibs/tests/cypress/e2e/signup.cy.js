@@ -54,7 +54,7 @@ describe("cadastro", () => {
     });
   });
 
-  context.only("quando o email é incorreto", () => {
+  context("quando o email é incorreto", () => {
     const user = {
       name: "Test User 3",
       email: "test3.gmail.com",
@@ -65,7 +65,32 @@ describe("cadastro", () => {
       signupPage.go();
       signupPage.form(user);
       signupPage.submit();
-      signupPage.alertHaveText("Informe um email válido")
+      signupPage.alertHaveText("Informe um email válido");
+    });
+  });
+
+  context.only("quando a senha tem 1 caractere", () => {
+    const passwords = ["1", "2a", "ab3", "abc4", "ab#c5"];
+
+    beforeEach(() => {
+      signupPage.go();
+    });
+
+    passwords.forEach((p) => {
+      it("não deve cadastrar com a senha: " + p, () => {
+        const user = {
+          name: "Test User 4",
+          email: "test4@gmail.com",
+          password: p,
+        };
+
+        signupPage.form(user);
+        signupPage.submit();
+      });
+
+      afterEach(() => {
+        signupPage.alertHaveText("Pelo menos 6 caracteres");
+      });
     });
   });
 });
