@@ -1,13 +1,15 @@
 import signupPage from "../support/pages/signup";
 
 describe("cadastro", () => {
-  context("quando o usuário é novato", () => {
-    const user = {
-      name: "Test User",
-      email: "test@gmail.com",
-      password: "pwd123",
-    };
+  let user
 
+  before(() => {
+    cy.fixture("user").then((loadedUser) => {
+      user = loadedUser;
+    });
+  });
+
+  context("quando o usuário é novato", () => {
     before(() => {
       cy.task("removeUser", user.email).then(function (result) {
         console.log(result);
