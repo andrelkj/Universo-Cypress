@@ -67,7 +67,7 @@ describe("login", () => {
         loginPage.go()
         loginPage.form(user);
         loginPage.submit();
-        loginPage.alertHaveText("Informe um email válido");
+        loginPage.alert.haveText("Informe um email válido");
       });
     });
   });
@@ -82,7 +82,7 @@ describe("login", () => {
 
     it("deve exibir mensagens de erro", () => {
       alertMessages.forEach((alert) => {
-        loginPage.alertHaveText(alert);
+        loginPage.alert.haveText(alert);
       });
     });
   });
