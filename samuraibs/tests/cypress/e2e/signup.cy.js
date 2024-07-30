@@ -1,24 +1,30 @@
 import signupPage from "../support/pages/signup";
 
 describe("cadastro", () => {
-  let user
+  let success;
+  let email_dup;
+  let email_inv;
+  let short_password;
 
   before(() => {
-    cy.fixture("user").then((loadedUser) => {
-      user = loadedUser;
+    cy.fixture("signup").then((signup) => {
+      success = signup.success;
+      email_dup = signup.email_dup;
+      email_inv = signup.email_inv;
+      short_password = signup.short_password;
     });
   });
 
   context("quando o usuário é novato", () => {
     before(() => {
-      cy.task("removeUser", user.email).then(function (result) {
+      cy.task("removeUser", success.email).then(function (result) {
         console.log(result);
       });
     });
 
     it("deve cadastrar com sucesso", () => {
       signupPage.go();
-      signupPage.form(user);
+      signupPage.form(success);
       signupPage.submit();
       signupPage.toast.shouldHaveText(
         "Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!"
@@ -27,20 +33,13 @@ describe("cadastro", () => {
   });
 
   context("quando o email já existe", () => {
-    const user = {
-      name: "Test User 2",
-      email: "test2@gmail.com",
-      password: "pwd123",
-      is_provider: true,
-    };
-
     before(() => {
-      cy.postUser(user);
+      cy.postUser(email_dup);
     });
 
     it("não deve cadastrar o usuário", () => {
       signupPage.go();
-      signupPage.form(user);
+      signupPage.form(email_dup);
       signupPage.submit();
       signupPage.toast.shouldHaveText(
         "Email já cadastrado para outro usuário."
@@ -49,15 +48,9 @@ describe("cadastro", () => {
   });
 
   context("quando o email é incorreto", () => {
-    const user = {
-      name: "Test User 3",
-      email: "test3.gmail.com",
-      password: "pwd123",
-    };
-
     it("deve exibir mensagem de alerta", () => {
       signupPage.go();
-      signupPage.form(user);
+      signupPage.form(email_inv);
       signupPage.submit();
       signupPage.alert.haveText("Informe um email válido");
     });
@@ -67,18 +60,15 @@ describe("cadastro", () => {
     const passwords = ["1", "2a", "ab3", "abc4", "ab#c5"];
 
     beforeEach(() => {
-      signupPage.go();
+      
     });
 
     passwords.forEach((p) => {
       it("não deve cadastrar com a senha: " + p, () => {
-        const user = {
-          name: "Test User 4",
-          email: "test4@gmail.com",
-          password: p,
-        };
+        short_password.password = p
 
-        signupPage.form(user);
+        signupPage.go();
+        signupPage.form(short_password);
         signupPage.submit();
       });
 

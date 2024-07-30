@@ -1,0 +1,24 @@
+{
+  "success": {
+    "name": "Test User",
+    "email": "test@gmail.com",
+    "password": "pwd123"
+  },
+  "email_dup": {
+    "name": "Test User 2",
+    "email": "test2@gmail.com",
+    "password": "pwd123",
+    "is_provider": true
+  },
+  "email_inv": {
+    "name": "Test User 3",
+    "email": "test3.gmail.com",
+    "password": "pwd123",
+    "is_provider": true
+  },
+  "short_password": {
+    "name": "Test User 4",
+    "email": "test4@gmail.com",
+    "password": null
+  }
+}
