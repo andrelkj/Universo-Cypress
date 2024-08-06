@@ -27,9 +27,23 @@ describe('dashboard', function () {
     });
 
     it('o mesmo deve ser exibido no dashboard', function () {
-      cy.log('Id do provider é ' + Cypress.env('providerId'))
+      cy.log('Id do provider é ' + Cypress.env('providerId'));
+      cy.createAppointment();
     });
   });
+});
+
+import moment from 'moment';
+
+Cypress.Commands.add('createAppointment', function () {
+  // define a variable to store the tomorrow date as a number
+  let now = new Date();
+
+  now.setDate(now.getDate() + 1);
+
+  // format date using moment library
+  const day = moment(now).format('YYYY-MM-DD 14:00:00');
+  cy.log(day);
 });
 
 Cypress.Commands.add('setProviderId', function (providerEmail) {
