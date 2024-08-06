@@ -24,26 +24,100 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add("postUser", (user) => {
-  cy.task("removeUser", user.email).then(function (result) {
+import moment from 'moment';
+
+Cypress.Commands.add('postUser', (user) => {
+  cy.task('removeUser', user.email).then(function (result) {
     console.log(result);
   });
 
-  cy.request("POST", "http://localhost:3333/users", user).then(function (
+  cy.request('POST', 'http://localhost:3333/users', user).then(function (
     response
   ) {
     expect(response.status).to.eq(200);
   });
 });
 
-Cypress.Commands.add("recoveryPass", (email) => {
-  cy.request("POST", "http://localhost:3333/password/forgot", {
+Cypress.Commands.add('recoveryPass', (email) => {
+  cy.request('POST', 'http://localhost:3333/password/forgot', {
     email: email,
   }).then(function (response) {
     expect(response.status).to.eq(204);
 
-    cy.task("findToken", email).then(function (result) {
-      Cypress.env("recoveryToken", result.token)
+    cy.task('findToken', email).then(function (result) {
+      Cypress.env('recoveryToken', result.token);
     });
+  });
+});
+
+Cypress.Commands.add('createAppointment', function (hour) {
+  // define a variable to store the tomorrow date as a number
+  let now = new Date();
+
+  now.setDate(now.getDate() + 1);
+  Cypress.env('appointmentDay', now.getDate());
+
+  // format date using moment library
+  const date = moment(now).format('YYYY-MM-DD ' + hour + ':00');
+
+  // define request payload
+  const payload = {
+    provider_id: Cypress.env('providerId'),
+    date: date,
+  };
+
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:3333/appointments',
+    body: payload,
+    headers: {
+      authorization: 'Bearer ' + Cypress.env('apiToken'),
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    console.log(response.body.token);
+  });
+});
+
+Cypress.Commands.add('setProviderId', function (providerEmail) {
+  // get auth token and create env variable
+  cy.request({
+    method: 'GET',
+    url: 'http://localhost:3333/providers',
+    headers: {
+      authorization: 'Bearer ' + Cypress.env('apiToken'),
+    },
+  }).then(function (response) {
+    expect(response.status).to.eq(200);
+    // get providers list
+    console.log(response.body);
+
+    //store providers list in a variable
+    const providerList = response.body;
+
+    // iterate through the providers list to get the provider id that matches the given email
+    providerList.forEach(function (provider) {
+      if (provider.email === providerEmail) {
+        //store provider id into a env variable
+        Cypress.env('providerId', provider.id);
+      }
+    });
+  });
+});
+
+Cypress.Commands.add('apiLogin', function (user) {
+  const payload = {
+    email: user.email,
+    password: user.password,
+  };
+
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:3333/sessions',
+    body: payload,
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    console.log(response.body.token);
+    Cypress.env('apiToken', response.body.token);
   });
 });
