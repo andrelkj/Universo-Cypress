@@ -33,7 +33,7 @@ Cypress.Commands.add('postUser', (user) => {
     console.log(result);
   });
 
-  cy.request({ method: 'POST', url: apiServer + '/users', body: user }).then(
+  cy.request({ method: 'POST', url: `${apiServer}/users`, body: user }).then(
     function (response) {
       expect(response.status).to.eq(200);
     }
@@ -43,7 +43,7 @@ Cypress.Commands.add('postUser', (user) => {
 Cypress.Commands.add('recoveryPass', (email) => {
   cy.request({
     method: 'POST',
-    url: apiServer + '/password/forgot',
+    url: `${apiServer}/password/forgot`,
     body: {
       email: email,
     },
@@ -64,7 +64,7 @@ Cypress.Commands.add('createAppointment', function (hour) {
   Cypress.env('appointmentDay', now.getDate());
 
   // format date using moment library
-  const date = moment(now).format('YYYY-MM-DD ' + hour + ':00');
+  const date = moment(now).format(`YYYY-MM-DD ${hour}:00`);
 
   // define request payload
   const payload = {
@@ -74,10 +74,10 @@ Cypress.Commands.add('createAppointment', function (hour) {
 
   cy.request({
     method: 'POST',
-    url: apiServer + '/appointments',
+    url: `${apiServer}/appointments`,
     body: payload,
     headers: {
-      authorization: 'Bearer ' + Cypress.env('apiToken'),
+      authorization: `Bearer ${Cypress.env('apiToken')}`,
     },
   }).then((response) => {
     expect(response.status).to.eq(200);
@@ -89,9 +89,9 @@ Cypress.Commands.add('setProviderId', function (providerEmail) {
   // get auth token and create env variable
   cy.request({
     method: 'GET',
-    url: apiServer + '/providers',
+    url: `${apiServer}/providers`,
     headers: {
-      authorization: 'Bearer ' + Cypress.env('apiToken'),
+      authorization: `Bearer ${Cypress.env('apiToken')}`,
     },
   }).then(function (response) {
     expect(response.status).to.eq(200);
@@ -119,7 +119,7 @@ Cypress.Commands.add('apiLogin', function (user) {
 
   cy.request({
     method: 'POST',
-    url: apiServer + '/sessions',
+    url: `${apiServer}/sessions`,
     body: payload,
   }).then((response) => {
     expect(response.status).to.eq(200);
