@@ -1,36 +1,23 @@
 import loginPage from '../support/pages/login';
 import dashboardPage from '../support/pages/dashboard';
+import { customer, provider, appointment } from '../support/factories/dashboard';
 
 describe('dashboard', function () {
   context('quando o cliente faz um agendamento no app mobile', function () {
-    const data = {
-      customer: {
-        name: 'Customer user',
-        email: 'customer@test.com',
-        password: 'pwd123',
-        is_provider: false,
-      },
-      provider: {
-        name: 'Provider User',
-        email: 'provider@test.com',
-        password: 'pwd123',
-        is_provider: true,
-      },
-      appointmentHour: '14:00',
-    };
+
 
     before(function () {
-      cy.postUser(data.provider);
-      cy.postUser(data.customer);
+      cy.postUser(provider);
+      cy.postUser(customer);
 
-      cy.apiLogin(data.customer);
-      cy.setProviderId(data.provider.email);
-      cy.createAppointment(data.appointmentHour);
+      cy.apiLogin(customer);
+      cy.setProviderId(provider.email);
+      cy.createAppointment(appointment.hour);
     });
 
     it('o mesmo deve ser exibido no dashboard', function () {
       loginPage.go();
-      loginPage.form(data.provider);
+      loginPage.form(provider);
       loginPage.submit();
 
       dashboardPage.calendarShouldBeVisible();
@@ -38,7 +25,7 @@ describe('dashboard', function () {
       const day = Cypress.env('appointmentDay');
       dashboardPage.selectDay(day);
 
-      dashboardPage.appoitmentShouldBe(data.customer, data.appointmentHour);
+      dashboardPage.appoitmentShouldBe(customer, appointment.hour);
     });
   });
 });
