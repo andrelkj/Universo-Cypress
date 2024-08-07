@@ -25,8 +25,18 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import moment from 'moment';
+import loginPage from './pages/login';
+import dashboardPage from './pages/dashboard';
 
 const apiServer = Cypress.env('apiServer');
+
+// App Actions
+Cypress.Commands.add('uiLogin', function (user) {
+  loginPage.go();
+  loginPage.form(user);
+  loginPage.submit();
+  dashboardPage.header.userLoggedIn(user.name);
+});
 
 Cypress.Commands.add('postUser', (user) => {
   cy.task('removeUser', user.email).then(function (result) {

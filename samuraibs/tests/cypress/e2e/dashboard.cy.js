@@ -1,11 +1,12 @@
-import loginPage from '../support/pages/login';
 import dashboardPage from '../support/pages/dashboard';
-import { customer, provider, appointment } from '../support/factories/dashboard';
+import {
+  customer,
+  provider,
+  appointment,
+} from '../support/factories/dashboard';
 
 describe('dashboard', function () {
   context('quando o cliente faz um agendamento no app mobile', function () {
-
-
     before(function () {
       cy.postUser(provider);
       cy.postUser(customer);
@@ -16,15 +17,12 @@ describe('dashboard', function () {
     });
 
     it('o mesmo deve ser exibido no dashboard', function () {
-      loginPage.go();
-      loginPage.form(provider);
-      loginPage.submit();
+      const day = Cypress.env('appointmentDay');
+
+      cy.uiLogin(provider);
 
       dashboardPage.calendarShouldBeVisible();
-
-      const day = Cypress.env('appointmentDay');
       dashboardPage.selectDay(day);
-
       dashboardPage.appoitmentShouldBe(customer, appointment.hour);
     });
   });
