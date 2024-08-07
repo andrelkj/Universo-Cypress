@@ -1,23 +1,23 @@
-const { defineConfig } = require("cypress");
-const { Pool } = require("pg");
+const { defineConfig } = require('cypress');
+const { Pool } = require('pg');
 
 module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
       const pool = new Pool({
-        host: "isabelle.db.elephantsql.com",
-        user: "fgvwvvkj",
-        password: "FQmcj5PEXs2crlc71hnCHnd9RkxKZfBg",
-        database: "fgvwvvkj",
+        host: 'isabelle.db.elephantsql.com',
+        user: 'fgvwvvkj',
+        password: 'FQmcj5PEXs2crlc71hnCHnd9RkxKZfBg',
+        database: 'fgvwvvkj',
         port: 5432,
       });
 
-      on("task", {
+      on('task', {
         removeUser(email) {
           return new Promise(function (resolve) {
             pool.query(
-              "DELETE FROM public.users WHERE email = $1",
+              'DELETE FROM public.users WHERE email = $1',
               [email],
               function (error, result) {
                 if (error) {
@@ -31,12 +31,12 @@ module.exports = defineConfig({
         findToken(email) {
           return new Promise(function (resolve) {
             pool.query(
-              "SELECT B.token FROM " +
-                "public.users A " +
-                "INNER JOIN public.user_tokens B " +
-                "ON A.id = B.user_id " +
-                "WHERE A.email = $1 " +
-                "ORDER BY B.created_at",
+              'SELECT B.token FROM ' +
+                'public.users A ' +
+                'INNER JOIN public.user_tokens B ' +
+                'ON A.id = B.user_id ' +
+                'WHERE A.email = $1 ' +
+                'ORDER BY B.created_at',
               [email],
               function (error, result) {
                 if (error) {
@@ -49,8 +49,11 @@ module.exports = defineConfig({
         },
       });
     },
-    baseUrl: "http://localhost:3000/",
+    baseUrl: 'http://localhost:3000',
     viewportWidth: 1440,
     viewportHeight: 900,
+  },
+  env: {
+    apiServer: 'http://localhost:3333',
   },
 });
