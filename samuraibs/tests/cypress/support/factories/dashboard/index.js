@@ -1,3 +1,7 @@
+import _ from 'underscore';
+
+// creating javascript objects instead of fixtures allows you to interact with the values 
+// and even use faker to generate random data, underscore to manage arrays and so on
 exports.customer = {
   name: 'Customer User',
   email: 'customer@test.com',
@@ -13,7 +17,16 @@ exports.provider = {
 };
 
 exports.appointment = {
-  hour: '14:00',
+  hour: _.sample([
+    '08:00',
+    '09:00',
+    '10:00',
+    '11:00',
+    '12:00',
+    '13:00',
+    '14:00',
+    '15:00',
+    '16:00',
+    '17:00',
+  ]),
 };
-
-// allow us to use faker
