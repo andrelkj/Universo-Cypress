@@ -1,6 +1,6 @@
-import { el } from "./elements";
-import toast from "../../components/toast";
-import alert from "../../components/alert";
+import { el } from './elements';
+import toast from '../../components/toast';
+import alert from '../../components/alert';
 
 class SignupPage {
   constructor() {
@@ -9,7 +9,8 @@ class SignupPage {
   }
 
   go() {
-    cy.visit("/signup");
+    cy.visit('/signup');
+    cy.contains(el.title).should('be.visible');
   }
 
   form(user) {

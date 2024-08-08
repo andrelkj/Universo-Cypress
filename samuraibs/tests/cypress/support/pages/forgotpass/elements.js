@@ -1,4 +1,5 @@
 exports.el = {
-    email: "input[placeholder$=mail]",
-    btnSubmit: "button[type=submit]"
-}
+  title: ('h1', 'Recuperar senha'),
+  email: 'input[placeholder$=mail]',
+  btnSubmit: 'button[type=submit]',
+};

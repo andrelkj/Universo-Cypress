@@ -1,5 +1,5 @@
-import { el } from "./elements";
-import toast from "../../components/toast";
+import { el } from './elements';
+import toast from '../../components/toast';
 
 class ForgotPassPage {
   constructor() {
@@ -7,7 +7,8 @@ class ForgotPassPage {
   }
 
   go() {
-    cy.visit("/forgot-password");
+    cy.visit('/forgot-password');
+    cy.contains(el.title).should('be.visible');
   }
 
   form(email) {
@@ -15,7 +16,7 @@ class ForgotPassPage {
   }
 
   submit() {
-    cy.contains(el.btnSubmit, "Recuperar").click();
+    cy.contains(el.btnSubmit, 'Recuperar').click();
   }
 }
 
