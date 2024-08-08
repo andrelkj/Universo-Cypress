@@ -14,7 +14,13 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import './commands';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+// take a screenshot for every test (pass or fail)
+afterEach(function () {
+  cy.wait(1500);
+  cy.screenshot();
+});
