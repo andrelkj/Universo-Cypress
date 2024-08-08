@@ -121,7 +121,7 @@ Cypress.Commands.add('setProviderId', function (providerEmail) {
   });
 });
 
-Cypress.Commands.add('apiLogin', function (user) {
+Cypress.Commands.add('apiLogin', function (user, setLocalStorage = false) {
   const payload = {
     email: user.email,
     password: user.password,
@@ -135,5 +135,17 @@ Cypress.Commands.add('apiLogin', function (user) {
     expect(response.status).to.eq(200);
     console.log(response.body.token);
     Cypress.env('apiToken', response.body.token);
+
+    if (setLocalStorage) {
+      const { token, user } = response.body;
+
+      // add api token and user credentials in the browser local storage
+      window.localStorage.setItem('@Samurai:token', token);
+      window.localStorage.setItem('@Samurai:user', JSON.stringify(user));
+    }
   });
+
+  if (setLocalStorage) {
+    cy.visit('/dashboard');
+  }
 });
