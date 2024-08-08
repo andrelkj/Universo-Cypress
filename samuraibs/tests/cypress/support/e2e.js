@@ -21,6 +21,5 @@ import './commands';
 
 // take a screenshot for every test (pass or fail)
 afterEach(function () {
-  cy.wait(1500);
   cy.screenshot();
 });
