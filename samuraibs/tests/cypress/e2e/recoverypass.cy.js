@@ -19,7 +19,7 @@ describe("resgate de senha", () => {
       fpPage.submit();
 
       const message =
-        "Enviamos um e-mail para confirmar a recuperação de senha, cheque sua caixa de entrada.";
+        "Enviamos um e-mail para confirmar a recuperação de senha, verifique sua caixa de entrada.";
 
       fpPage.toast.shouldHaveText(message);
     });

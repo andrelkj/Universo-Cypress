@@ -3,7 +3,7 @@ const { Pool } = require('pg');
 
 module.exports = defineConfig({
   e2e: {
-    video: false, // disabled by default can be overriden by running npx cypress run --video=true
+    video: true, // disabled by default can be overriden by running npx cypress run --video=true
     setupNodeEvents(on, config) {
       // implement node event listeners here
       const pool = new Pool({
