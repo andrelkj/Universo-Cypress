@@ -13,6 +13,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Set working directory
+        run: cd samuraibs/tests
+
       - name: Cypress run
         # Uses the official Cypress GitHub action https://github.com/cypress-io/github-action
         uses: cypress-io/github-action@v6
@@ -21,7 +25,7 @@ jobs:
           # https://docs.cypress.io/guides/continuous-integration/introduction#Boot-your-server
           start: npm start
           wait-on: 'http://localhost:3000' # Waits for above
-          # Records to Cypress Cloud 
+          # Records to Cypress Cloud
           # https://docs.cypress.io/guides/cloud/projects#Set-up-a-project-to-record
           record: true
           parallel: true # Runs test in parallel using settings above
