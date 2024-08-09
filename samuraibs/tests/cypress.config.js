@@ -53,6 +53,7 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:3000',
     viewportWidth: 1440,
     viewportHeight: 900,
+    defaultCommandTimeout: 30000, // implicit timeout
   },
   env: {
     apiServer: 'http://localhost:3333',
