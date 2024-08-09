@@ -27,17 +27,11 @@ jobs:
 
       - name: Install Dependencies (API)
         working-directory: samuraibs/api
-        run: yarn install
+        run: yarn install && yarn start &
 
       - name: Install Dependencies (Web)
         working-directory: samuraibs/web
-        run: yarn install
-
-      - name: Start API and Web Servers
-        run: |
-          cd samuraibs/api && yarn start &
-          cd ../web && yarn start &
-          sleep 10 # Give some time for servers to start
+        run: yarn install && yarn start &
 
       - name: Install Dependencies (Tests)
         working-directory: samuraibs/tests
