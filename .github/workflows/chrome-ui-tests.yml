@@ -1,14 +1,13 @@
 name: Cypress Tests
+
 on: [push]
+
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        containers: [1, 2]
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Node.js
@@ -20,23 +19,32 @@ jobs:
         working-directory: samuraibs/tests
         run: npm install
 
-      - name: Start API Server
-        working-directory: samuraibs/api # Diretório onde o servidor da API está localizado
-        run: yarn start &
+      - name: Start API server
+        run: |
+          cd samuraibs/api
+          yarn start &
+        env:
+          PORT: 3333
 
-      - name: Start Web Server
-        working-directory: samuraibs/web # Diretório onde o servidor web está localizado
-        run: yarn start &
+      - name: Start Web server
+        run: |
+          cd samuraibs/web
+          yarn start &
+        env:
+          PORT: 3000
 
-      - name: Cypress run
+      - name: Wait for servers to be ready
+        run: |
+          while ! nc -z localhost 3333; do sleep 1; done
+          while ! nc -z localhost 3000; do sleep 1; done
+
+      - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
-          start: wait-on http://localhost:3000 && npx cypress run
-          wait-on: 'http://localhost:3000' # Tempo de espera para o servidor iniciar
-          wait-on-timeout: 120 # Aumenta o tempo de espera para 120 segundos
+          start: npx cypress run
+          wait-on: 'http://localhost:3000'
           record: true
           parallel: true
-          working-directory: samuraibs/tests
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
