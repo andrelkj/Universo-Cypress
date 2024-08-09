@@ -15,9 +15,17 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Dependencies
+      - name: Install Dependencies for tests
         working-directory: samuraibs/tests
         run: npm install
+
+      - name: Install Dependencies for API
+        working-directory: samuraibs/api
+        run: yarn install
+
+      - name: Install Dependencies for Web
+        working-directory: samuraibs/web
+        run: yarn install
 
       - name: Start API server
         run: |
@@ -45,6 +53,7 @@ jobs:
           wait-on: 'http://localhost:3000'
           record: true
           parallel: true
+          working-directory: samuraibs/tests
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
