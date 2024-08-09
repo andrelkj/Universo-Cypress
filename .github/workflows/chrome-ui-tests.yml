@@ -25,7 +25,12 @@ jobs:
         uses: Leocardoso94/is-my-site-up@v1.2
         with:
           site: http://localhost:3333
-          
+
+      - name: Ping Web
+        uses: Leocardoso94/is-my-site-up@v1.2
+        with:
+          site: http://localhost:3000
+
       - name: 'UI Tests - Chrome'
         uses: cypress-io/github-action@v2
         with:
