@@ -21,18 +21,19 @@ jobs:
         run: npm install
 
       - name: Start API Server
-        working-directory: samuraibs/api
+        working-directory: api # Diretório onde o servidor da API está localizado
         run: yarn start &
-        
+
       - name: Start Web Server
-        working-directory: samuraibs/web
+        working-directory: web # Diretório onde o servidor web está localizado
         run: yarn start &
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          start: npx cypress run
-          wait-on: 'http://localhost:3000'
+          start: wait-on http://localhost:3000 && npx cypress run
+          wait-on: 'http://localhost:3000' # Tempo de espera para o servidor iniciar
+          wait-on-timeout: 120 # Aumenta o tempo de espera para 120 segundos
           record: true
           parallel: true
           working-directory: samuraibs/tests
