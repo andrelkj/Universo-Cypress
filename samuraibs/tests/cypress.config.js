@@ -2,6 +2,7 @@ const { defineConfig } = require('cypress');
 const { Pool } = require('pg');
 
 module.exports = defineConfig({
+  projectId: "xkkgdf",
   e2e: {
     video: true, // disabled by default can be overriden by running npx cypress run --video=true
     setupNodeEvents(on, config) {
