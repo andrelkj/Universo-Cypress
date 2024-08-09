@@ -21,11 +21,11 @@ jobs:
         run: npm install
 
       - name: Start API Server
-        working-directory: api # Diretório onde o servidor da API está localizado
+        working-directory: samuraibs/api # Diretório onde o servidor da API está localizado
         run: yarn start &
 
       - name: Start Web Server
-        working-directory: web # Diretório onde o servidor web está localizado
+        working-directory: samuraibs/web # Diretório onde o servidor web está localizado
         run: yarn start &
 
       - name: Cypress run
