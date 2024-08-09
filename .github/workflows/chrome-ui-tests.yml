@@ -11,7 +11,7 @@ jobs:
   # This workflow contains a single job called "build"
   chrome-ui-tests:
     runs-on: ubuntu-latest
-    container: cypress/browsers:node14.17.6-chrome100-ff98
+    container: cypress/included:latest
     strategy:
       fail-fast: false
       matrix:
