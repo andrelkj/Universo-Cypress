@@ -17,9 +17,19 @@ jobs:
       matrix:
         # run copies of the current job in parallel
         containers: [1]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # Specify the Node.js version you need
+
+      - name: Install Dependencies for Tests
+        working-directory: samuraibs/tests
+        run: npm install
 
       - name: Ping API
         uses: Leocardoso94/is-my-site-up@v1.2
