@@ -27,28 +27,27 @@ jobs:
 
       - name: Install Dependencies (API)
         working-directory: samuraibs/api
-        run: yarn install && yarn start &
+        run: yarn install
 
       - name: Install Dependencies (Web)
         working-directory: samuraibs/web
-        run: yarn install && yarn start &
+        run: yarn install
+
+      - name: Initialize API
+        working-directory: samuraibs/api
+        run: yarn start &
+
+      - name: Initialize Web
+        working-directory: samuraibs/api
+        run: yarn start &
 
       - name: Install Dependencies (Tests)
         working-directory: samuraibs/tests
         run: yarn install
 
-      - name: 'UI Tests - Chrome'
-        uses: cypress-io/github-action@v2
-        with:
-          install-command: yarn install
-          wait-on: 'http://localhost:3000' # Waiting for the web server to be available
-          wait-on-timeout: 120
-          browser: chrome
-          record: true
-          parallel: true
-          group: 'UI - Chrome'
-          spec: cypress/integration/*
+      - name: Run Cypress Tests
+        working-directory: samuraibs/tests
+        run: npx cypress run
         env:
-          TZ: America/Sao_Paulo
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
