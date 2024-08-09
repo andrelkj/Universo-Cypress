@@ -15,27 +15,25 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Dependencies for Web
-        working-directory: samuraibs/web
-        run: yarn install
-
-      - name: Install Dependencies for Tests
+      - name: Install Dependencies
         working-directory: samuraibs/tests
         run: yarn install
 
-      - name: Install Dependencies for API
+      - name: Build API
         working-directory: samuraibs/api
-        run: yarn install
+        run: yarn build
 
-      - name: Ping API
-        uses: Leocardoso94/is-my-site-up@v1.2
-        with:
-          site: http://localhost:3333
+      - name: Start API Server
+        working-directory: samuraibs/api
+        run: |
+          yarn start &
+          sleep 10 # Ajuste o tempo conforme necessário
 
-      - name: Ping Web
-        uses: Leocardoso94/is-my-site-up@v1.2
-        with:
-          site: http://localhost:3000
+      - name: Start Web Server
+        working-directory: samuraibs/web
+        run: |
+          yarn start &
+          sleep 10 # Ajuste o tempo conforme necessário
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v2
