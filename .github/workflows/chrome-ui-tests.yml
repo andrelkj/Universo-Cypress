@@ -19,10 +19,6 @@ jobs:
         working-directory: samuraibs/tests
         run: yarn install
 
-      - name: Build API
-        working-directory: samuraibs/api
-        run: yarn build
-
       - name: Start API Server
         working-directory: samuraibs/api
         run: |
