@@ -21,6 +21,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Ping API
+        uses: Leocardoso94/is-my-site-up@v1.2
+        with:
+          site: http://localhost:3333
+          
       - name: 'UI Tests - Chrome'
         uses: cypress-io/github-action@v2
         with:
